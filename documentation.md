@@ -1,23 +1,14 @@
-# Job Finder Application - Technical Documentation
+# Job Finder Application Documentation
 
 ## Project Overview
 
 I developed Job Finder as a comprehensive solution to address the challenges job seekers face when searching for employment opportunities. The application combines web scraping technology with AI-powered job matching to create a seamless experience for users looking to find relevant positions matching their skills and preferences.
 
-![Job Finder Homepage Screenshot - Add your screenshot here](/screenshots/homepage.png)
+![Job Finder Homepage Screenshot - Add your screenshot here](/screenshots/1_job_finder_home_page.png)
 
-## Problem Statement & Solution
+## Working Overview
 
-### The Challenge
 
-During my research, I identified several pain points in the job search process:
-
-1. Overwhelming number of job listings across multiple platforms
-2. Difficulty in filtering positions that genuinely match one's qualifications
-3. Time-consuming process of manually reviewing each listing
-4. Lack of personalized recommendations based on user preferences
-
-### My Solution
 
 I designed and implemented Job Finder to address these challenges through:
 
@@ -42,8 +33,63 @@ Job Finder
 │   └── Gemini AI Integration
 └── Data Storage (JSON)
 ```
-
-![Architecture Diagram - Add your screenshot here](/screenshots/architecture.png)
+```
+C:.
+│   .env
+│   documentation.md
+│   main.py
+│   ML Engineer - TA.pdf
+│   README.md
+│   requirements.txt
+│
+├───app
+│   │   integrated_api.py
+│   │
+│   ├───scraper
+│   │   │   CloudflareBypasser.py
+│   │   │   indeed.py
+│   │   │   __init__.py
+│   │   │
+│   │   └───__pycache__
+│   │           CloudflareBypasser.cpython-313.pyc
+│   │           CloudflareBypasser.cpython-39.pyc 
+│   │           indeed.cpython-313.pyc
+│   │           indeed.cpython-39.pyc
+│   │           __init__.cpython-313.pyc
+│   │           __init__.cpython-39.pyc
+│   │
+│   ├───services
+│   │   │   job_matcher.py
+│   │   │   __init__.py
+│   │   │
+│   │   └───__pycache__
+│   │           job_matcher.cpython-313.pyc
+│   │           job_matcher.cpython-39.pyc
+│   │           __init__.cpython-313.pyc
+│   │           __init__.cpython-39.pyc
+│   │
+│   ├───static
+│   │   ├───css
+│   │   │       styles.css
+│   │   │
+│   │   └───js
+│   │           main.js
+│   │
+│   ├───templates
+│   │       index.html
+│   │
+│   ├───utils
+│   └───__pycache__
+│           api.cpython-313.pyc
+│           integrated_api.cpython-313.pyc
+│           integrated_api.cpython-39.pyc
+│           main.cpython-313.pyc
+│           main.cpython-39.pyc
+│           __init__.cpython-39.pyc
+│
+├───screenshots
+│       1_job_finder_home_page.png
+```
 
 ### Technology Stack
 
@@ -72,22 +118,7 @@ I carefully selected technologies based on their performance, reliability, and s
 
 ## Implementation Details
 
-### Web Scraping Component
 
-One of the major challenges I faced was reliable job data collection from Indeed, particularly bypassing anti-scraping measures. I solved this by:
-
-1. Implementing a `CloudflareBypasser` class that can navigate through Cloudflare protection
-2. Using DrissionPage for initial access and cookie collection
-3. Transferring those cookies to Selenium for efficient scraping
-4. Designing robust CSS selectors with fallback mechanisms for resilient data extraction
-
-```python
-# Example of my selector strategy with fallbacks
-job_cards = get_all_elements(selenium_driver, "h2[data-testid='jobTitle']", timeout=5)
-if not job_cards:
-    # Fallback to alternative selector
-    job_cards = get_all_elements(selenium_driver, "h2[class*='jobTitle']", timeout=5)
-```
 
 ### AI Job Matching
 
@@ -115,7 +146,7 @@ Please find the best matching jobs based on the above user preferences...
 """
 ```
 
-![AI Matching Results - Add your screenshot here](/screenshots/ai_results.png)
+![AI Matching Results - Add your screenshot here](/screenshots/2_ai_matched_results.png)
 
 ### Asynchronous Processing
 
@@ -176,7 +207,7 @@ function animateProgressBar(startValue, endValue) {
 }
 ```
 
-![Progress Tracking - Add your screenshot here](/screenshots/progress.png)
+![Progress Tracking - Add your screenshot here](/screenshots/3_progress_tracking.png)
 
 ## Challenges & Solutions
 
@@ -184,9 +215,7 @@ function animateProgressBar(startValue, endValue) {
 
 One of the most significant challenges I faced was bypassing Cloudflare's anti-bot protection on Indeed. I solved this by:
 
-1. Researching and implementing the DrissionPage library
-2. Creating a custom `CloudflareBypasser` class
-3. Capturing and transferring cookies between different browser instances
+Found this cloudflare bypasser from Github repo after hours of research and brainstorming with my friend.
 
 ### Challenge 2: Inconsistent HTML Structure
 
@@ -196,29 +225,8 @@ Job listings on Indeed frequently change their HTML structure, making scraping d
 2. Creating robust parsing logic with error handling
 3. Using more reliable data-testid attributes where available
 
-### Challenge 3: Large Language Model Response Parsing
 
-The Gemini API sometimes returned responses in various formats. I solved this by:
-
-1. Adding preprocessing steps to clean the response text
-2. Implementing regex-based formatting cleanup
-3. Creating a fallback mechanism to use raw job data if parsing failed
-
-```python
-try:
-    cleaned_json = llm_response.strip()
-    if cleaned_json.startswith("```json"):
-        cleaned_json = cleaned_json[7:]
-    if cleaned_json.endswith("```"):
-        cleaned_json = cleaned_json[:-3]
-    
-    parsed_data = json.loads(cleaned_json)
-    # Use parsed data
-except json.JSONDecodeError:
-    # Fall back to raw jobs
-```
-
-### Challenge 4: Progress Reporting
+### Challenge 3: Progress Reporting
 
 Creating a smooth progress reporting system was challenging due to the variable time each step required. I resolved this by:
 
@@ -235,15 +243,12 @@ For quality assurance, I implemented:
 3. **Input Validation**: Server-side validation of user inputs
 4. **Responsive Design Testing**: Testing across multiple device sizes
 
-## Future Enhancements
+## Future Enhancements Remaining
 
-Based on my experience with the project, I've identified several potential enhancements:
 
-1. **Multi-source Scraping**: Extend the scraper to collect jobs from LinkedIn, Glassdoor, etc.
-2. **User Authentication**: Add user accounts for saving searches and favorite jobs
-3. **Email Notifications**: Implement alerts for new matching jobs
-4. **Advanced Filtering**: Add more sophisticated filtering options
-5. **Resume Parsing**: Automatically extract skills from uploaded resumes
+
+1. **Multi-source Scraping**: LinkedIn and Glassdoor scraping is not implemented in this assessment due to shoratge of time and costly process.
+
 
 ## Running the Application
 
@@ -257,7 +262,6 @@ To run the Job Finder application:
 3. Start the server: `python main.py`
 4. Access the application at http://localhost:8000
 
-![Setup Process - Add your screenshot here](/screenshots/setup.png)
 
 ## Conclusion
 
@@ -269,9 +273,3 @@ The project demonstrates my ability to:
 - Create elegant solutions to technical challenges
 - Design intuitive user interfaces
 - Implement robust error handling and fallback mechanisms
-
-I look forward to continuing to enhance this application with new features and expanding its capabilities to help more job seekers find the perfect position.
-
----
-
-*Note: This application is for educational purposes only and should be used in accordance with the terms of service of any websites it interacts with.* 
