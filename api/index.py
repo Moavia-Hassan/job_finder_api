@@ -1,4 +1,5 @@
 from app.integrated_api import app
+from mangum import Mangum
 
-# This file is used by Vercel serverless deployment
-# It re-exports the FastAPI app object from your main application
+# Create an ASGI handler for Vercel serverless functions
+handler = Mangum(app)
