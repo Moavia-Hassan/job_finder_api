@@ -1,4 +1,5 @@
 import uvicorn
+from app.integrated_api import app
 
 if __name__ == "__main__":
     print("Starting Job Finder API server...")
