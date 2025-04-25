@@ -1,4 +1,4 @@
-# Job Finder - AI-Powered Job Search
+# Job Finder (AI-Powered Job Search)
 
 An integrated web application for searching, scraping, and analyzing job listings using AI.
 
